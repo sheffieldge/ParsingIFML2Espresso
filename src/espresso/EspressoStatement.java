@@ -15,6 +15,7 @@ public abstract class EspressoStatement {
         this.componentType = componentType;
         this.componentId = componentId;
         this.componentText = componentText;
+        // TODO: 2017/5/10 这里priority的来源应该是Espresso代码中的执行顺序
         priority = componentType.getPriority();
     }
 

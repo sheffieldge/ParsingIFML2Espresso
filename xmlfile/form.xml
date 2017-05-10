@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ASCII"?>
 <core:IFMLModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:core="http://www.omg.org/spec/20130218/core" xmlns:ext="http://www.omg.org/spec/20130218/ext" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML">
-  <interactionFlowModel sgPattern="form">
+    <interactionFlowModel sgPattern="form" sgPatternId="form_id">
     <interactionFlowModelElements xsi:type="ext:IFMLWindow" name="FormActivity" inInteractionFlows="//@interactionFlowModel/@interactionFlowModelElements.2/@actionEvents.1/@outInteractionFlows.0">
       <viewElements xsi:type="ext:form" name="Form">
         <viewElementEvents xsi:type="ext:OnSubmitEvent" name="buttonId" sgComponentId="email_sign_in_button">

@@ -3,6 +3,7 @@ package pattern;
 import espresso.EspressoAction;
 import espresso.EspressoCheck;
 import espresso.ViewComponentType;
+import org.dom4j.Element;
 
 import java.util.*;
 
@@ -10,14 +11,12 @@ import java.util.*;
  * Created by gexiaofei on 2017/5/9.
  */
 public abstract class BaseTestPattern {
-    private String goal;
-    private Queue<EspressoAction> espressoActions;
-    private List<EspressoCheck> espressoChecks;
-
     private static Comparator<EspressoAction> comparator = new ActionPriorityComparator();
+    String id;
+    Queue<EspressoAction> espressoActions;
+    List<EspressoCheck> espressoChecks;
 
     public BaseTestPattern() {
-
         espressoActions = new PriorityQueue<>(20, comparator);
         espressoChecks = new ArrayList<>();
     }
@@ -47,6 +46,7 @@ public abstract class BaseTestPattern {
      */
     public abstract void addTestComponent(ViewComponentType componentType, String componentId, String componentText);
 
+    public abstract void createFromModel(Element interactionFlowModel);
 
     private static class ActionPriorityComparator implements Comparator<EspressoAction> {
         @Override

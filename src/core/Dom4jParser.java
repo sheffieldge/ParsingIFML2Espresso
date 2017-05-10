@@ -1,6 +1,5 @@
 package core;
 
-import espresso.ViewComponentType;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -16,6 +15,17 @@ import java.util.Iterator;
  */
 public class Dom4jParser {
 
+    public static void main(String[] args) throws DocumentException {
+        GeneratorFramework generator = new GeneratorFramework();
+        Dom4jParser dom4JParser = new Dom4jParser();
+
+        Document document = dom4JParser.parse("xmlfile/form.xml");
+        BaseTestPattern pattern = dom4JParser.readDocument(document);
+        if (pattern != null) {
+            generator.addTestPattern(pattern);
+        }
+    }
+
     /**
      * @param fileName XML文件路径
      * @return
@@ -30,77 +40,45 @@ public class Dom4jParser {
 
     public BaseTestPattern readDocument(Document document) {
         if (document == null) {
-            System.out.println("document 不能为空。");
+            System.out.println("readDocument：参数不能为空。");
             return null;
         }
         Element ifmlModel = document.getRootElement();
         Iterator i = ifmlModel.elementIterator();
         while (i.hasNext()) {
-            // 获取 IFM，忽略 Domain Model
             Element interactionFlowModel = (Element)i.next();
+            // 仅处理interactionFlowModel，忽略 Domain Model
             if (interactionFlowModel.getName().equals("interactionFlowModel")) {
-                String testPattern = interactionFlowModel.attributeValue("sgPattern");
-                if (testPattern == null) {
-                    System.out.println("xml 中 interactionFlowModel 缺少模式类型");
-                    return null;
-                }
-                if (testPattern.equals("form")) {
-                    System.out.println("------------- 开始处理 Form Pattern -------------");
-                    BaseTestPattern result = createFormPattern(interactionFlowModel);
-                    System.out.println("------------- Form Pattern 处理结束 -------------");
-                    return result;
-                }
+                return parsePattern(interactionFlowModel.attributeValue("sgPattern"), interactionFlowModel);
             }
         }
-        System.out.println("readDocument错误：请检查XML中的模式名是否有误！");
+        System.out.println("readDocument：其他错误。");
         return null;
     }
 
-    public FormPattern createFormPattern(Element interactionFlowModel) {
-        FormPattern formPattern = new FormPattern();
-        Iterator j = interactionFlowModel.elementIterator();
-        while (j.hasNext()) {
-
-            // 依次获取 interactionFlowModelElements 同级
-            Element interactionFlowModelElements = (Element) j.next();
-            Iterator k = interactionFlowModelElements.elementIterator();
-            while (k.hasNext()) {
-
-                //依次获取 viewElements 同级
-                Element viewElements = (Element) k.next();
-                if (viewElements.getName().equals("viewElements")) {
-                    Iterator m = viewElements.elementIterator();
-                    while (m.hasNext()) {
-                        // 依次获取单个 View Element
-                        Element viewElement = (Element) m.next();
-                        String componentId = viewElement.attributeValue("sgComponentId");
-                        String componentText = viewElement.attributeValue("sgComponentText");
-                        // 根据 IFML 控件类型判断测试模型控件类型
-                        formPattern.addTestComponent(
-                                ViewComponentType.transferFromXmlType(viewElement.attributeValue("type")),
-                                componentId,
-                                componentText);
-                    }
-                }
-                else if (viewElements.getName().equals("actionEvents")) {
-
-                }
-
+    public BaseTestPattern parsePattern(String patternName, Element interactionFlowModel) {
+        if (patternName == null) {
+            System.out.println("xml 中 interactionFlowModel 缺少模式类型");
+            return null;
+        } else {
+            switch (patternName) {
+                case "form":
+                    System.out.println("------------- 开始处理 Form Pattern -------------");
+                    BaseTestPattern formPattern = new FormPattern();
+                    formPattern.createFromModel(interactionFlowModel);
+                    System.out.println("------------- Form Pattern 处理结束 -------------");
+                    return formPattern;
+                default:
+                    System.out.println("readDocument错误：请检查XML中的模式名是否有误！");
+                    break;
             }
         }
-        formPattern.getEspressoMethod();
-        return formPattern;
+        System.out.println("parsePattern: 其他错误。");
+        return null;
     }
 
-    public static void main(String[] args) {
-        Dom4jParser dom4JParser = new Dom4jParser();
-        try {
-            Document document = dom4JParser.parse("xmlfile/form.xml");
-            dom4JParser.readDocument(document);
+    public void readConfigFile(File fileName) {
 
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        }
     }
 
 }
