@@ -1,19 +1,14 @@
 package espresso;
 
 /**
- * Created by gexiaofei on 2017/5/10.
+ * Espresso Check 所需的多种类型值
  */
 public class CustomValue {
     String plainText;
+    String errorText;
     int recyclerViewItemPosition;
     int recyclerViewItemCount;
-
     public CustomValue() {
-    }
-
-    public CustomValue(String plainText, int recyclerViewItemPosition) {
-        this.plainText = plainText;
-        this.recyclerViewItemPosition = recyclerViewItemPosition;
     }
 
     public String getPlainText() {
@@ -24,11 +19,5 @@ public class CustomValue {
         this.plainText = plainText;
     }
 
-    public int getRecyclerViewItemPosition() {
-        return recyclerViewItemPosition;
-    }
 
-    public void setRecyclerViewItemPosition(int recyclerViewItemPosition) {
-        this.recyclerViewItemPosition = recyclerViewItemPosition;
-    }
 }

@@ -72,6 +72,5 @@ public class FormPattern extends BaseTestPattern implements CodeGenerator {
 
             }
         }
-        getEspressoMethod();
     }
 }

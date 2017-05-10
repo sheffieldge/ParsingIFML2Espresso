@@ -1,7 +1,7 @@
 package pattern;
 
 /**
- * Created by gexiaofei on 2017/5/9.
+ * 所有 Pattern 必须实现该接口以便直接生成代码
  */
 public interface CodeGenerator {
     String getEspressoStatement();

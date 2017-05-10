@@ -5,11 +5,11 @@ package espresso;
  */
 public enum ViewComponentType {
     // Form
-    BUTTON("Button", 1),
-    EDIT_TEXT("EditText", 1),
-    TEXT_VIEW("TextView", 1),
-    SPINNER("Spinner", 1),
-    SUBMIT_BUTTON("SubmitButton", 10);
+    BUTTON("Button", 0),
+    EDIT_TEXT("EditText", 0),
+    TEXT_VIEW("TextView", 0),
+    SPINNER("Spinner", 0),
+    SUBMIT_BUTTON("SubmitButton", 0);
 
 
     private String description;
@@ -18,14 +18,6 @@ public enum ViewComponentType {
     ViewComponentType(String description, int priority) {
         this.description = description;
         this.priority = priority;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public int getPriority() {
-        return priority;
     }
 
     public static ViewComponentType transferFromXmlType(String xmlValue) {
@@ -40,5 +32,13 @@ public enum ViewComponentType {
                 System.out.println("ViewComponentType 中未实现这种类型: " + xmlValue);
                 return null;
         }
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getPriority() {
+        return priority;
     }
 }

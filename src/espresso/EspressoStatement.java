@@ -1,5 +1,7 @@
 package espresso;
 
+import org.dom4j.Element;
+
 /**
  * Created by gexiaofei on 2017/5/10.
  */
@@ -47,5 +49,11 @@ public abstract class EspressoStatement {
         return componentText;
     }
 
+
+    /**
+     * @return 两个继承类实现该方法返回Espresso语句
+     */
     public abstract String getEspressoCode();
+
+    public abstract void setValueFromConfig(Element component, int priority);
 }
