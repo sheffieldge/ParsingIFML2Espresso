@@ -3,19 +3,19 @@
     <action>
         <component id="email" plainText="foo@example.com" />
         <component id="password" plainText="hello" />
-        <component id="id3" plainText="新华网" />
+        <component id="spinner" plainText="新华网"/>
     </action>
     <check>
-        <component type="TextView" plainText="FAKED_PLAIN_TEXT"/>
-        <component type="EditText" errorText="FAKED_ERROR_TEXT"/>
-        <component type="RecyclerViewItem" recyclerViewCount="10"/>
-        <component type="RecyclerViewItem" recyclerViewPosition="10"/>
-        <component type="Drawer" shouldOpen="true"/>
+        <component type="TextView" displayText="FAKED_PLAIN_TEXT"/>
+        <component type="EditText" id="email" errorText="FAKED_ERROR_TEXT"/>
+        <component type="RecyclerView" id="recycler_view" recyclerViewItemCount="10"/>
+        <component type="RecyclerView" id="recycler_view" recyclerViewItemPosition="10"/>
+        <component type="Drawer" id="drawer" shouldOpen="true"/>
     </check>
     <action>
         <component id="email_sign_in_button" />
     </action>
     <check>
-        <component type="TextView" plainText="FAKED_PLAIN_TEXT2"/>
+        <component type="TextView" displayText="FAKED_PLAIN_TEXT2"/>
     </check>
 </pattern>

@@ -1,6 +1,5 @@
 package core;
 
-import espresso.EspressoAction;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -25,7 +24,7 @@ public class Dom4jParser {
         BaseTestPattern pattern = dom4JParser.readDocument(document);
         if (pattern != null) {
             generator.addTestPattern(pattern);
-            dom4JParser.readConfigFile("config/form.xml");
+            pattern.parseConfigFile(dom4JParser.readConfigFile("config/form.xml"));
             pattern.getEspressoMethodSnippet();
         }
         System.out.println("------------- Pattern 处理结束 -------------");
@@ -69,7 +68,7 @@ public class Dom4jParser {
             switch (patternName) {
                 case "form":
                     BaseTestPattern formPattern = new FormPattern();
-                    formPattern.createFromModel(interactionFlowModel);
+                    formPattern.parseModel(interactionFlowModel);
                     return formPattern;
                 default:
                     System.out.println("readDocument错误：请检查XML中的模式名是否有误！");
@@ -80,13 +79,11 @@ public class Dom4jParser {
         return null;
     }
 
-    public void readConfigFile(String fileName) throws DocumentException {
-        File configXml = new File(fileName);
-        SAXReader saxReader = new SAXReader();
-        Document document = saxReader.read(configXml);
+    public Element readConfigFile(String fileName) throws DocumentException {
+        Document document = parse(fileName);
         if (document == null) {
             System.out.println("配置文件读取Document有误。");
-            return;
+            return null;
         }
         Element patternElement = document.getRootElement();
         // 处理pattern的属性
@@ -95,30 +92,13 @@ public class Dom4jParser {
         String patternContext = patternElement.attributeValue("context");
         if (patternType == null || patternId == null || patternContext == null) {
             System.out.println("配置文件中 Pattern 属性不完整。");
-            return;
-        }
-
-        BaseTestPattern testPattern = GeneratorFramework.findTestPatternById(patternId);
-        testPattern.setContext(patternContext);
-
-        int priority = 1;
-        Iterator i = patternElement.elementIterator();
-        while (i.hasNext()) {
-            Element statementGroup = (Element) i.next();
-            if (statementGroup.getName().equals("action")) {
-                Iterator j = statementGroup.elementIterator();
-
-                // for each <component> under <action>
-                while (j.hasNext()) {
-                    Element component = (Element) j.next();
-                    if (component.attributeValue("id") == null) {
-                        System.out.println("配置文件中 Component 的 id 是必填项");
-                    }
-                    EspressoAction action = testPattern.findEspressoActionById(component.attributeValue("id"));
-                    action.setValueFromConfig(component, priority++);
-                }
-            } else if (statementGroup.getName().equals("check")) {
-
+            return null;
+        } else {
+            if (GeneratorFramework.findTestPatternById(patternId) == null) {
+                System.out.println("找不到对应的IFML信息：" + patternId);
+                return null;
+            } else {
+                return patternElement;
             }
         }
     }

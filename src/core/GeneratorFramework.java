@@ -21,7 +21,7 @@ public class GeneratorFramework {
                 return pattern;
             }
         }
-        System.out.println("findTestPatternById: 配置文件中的 Pattern ID 有误！");
+        System.out.println("GeneratorFramework findTestPatternById: 配置文件中的 Pattern ID 有误！");
         return null;
     }
 

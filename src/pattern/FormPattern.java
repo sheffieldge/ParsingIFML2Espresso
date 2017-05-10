@@ -1,6 +1,7 @@
 package pattern;
 
 import espresso.EspressoAction;
+import espresso.EspressoCheck;
 import espresso.ViewComponentType;
 import org.dom4j.Element;
 
@@ -17,27 +18,7 @@ public class FormPattern extends BaseTestPattern implements CodeGenerator {
     }
 
     @Override
-    public void addTestComponent(ViewComponentType componentType, String componentId, String componentText) {
-        if (componentType == null) {
-            return;
-        }
-        switch (componentType) {
-            case SUBMIT_BUTTON:
-                addTestAction(new EspressoAction(ViewComponentType.SUBMIT_BUTTON, componentId, componentText));
-                break;
-            case SPINNER:
-                addTestAction(new EspressoAction(ViewComponentType.SPINNER, componentId, componentText));
-                break;
-            case EDIT_TEXT:
-                addTestAction(new EspressoAction(ViewComponentType.EDIT_TEXT, componentId, componentText));
-                break;
-            default:
-                System.out.println("Form Pattern 中暂未实现该类型");
-        }
-    }
-
-    @Override
-    public void createFromModel(Element interactionFlowModel) {
+    public void parseModel(Element interactionFlowModel) {
         id = interactionFlowModel.attributeValue("sgPatternId");
         if (id == null) {
             System.out.println("xml 中 interactionFlowModel 缺少模式 ID");
@@ -58,18 +39,59 @@ public class FormPattern extends BaseTestPattern implements CodeGenerator {
                     while (m.hasNext()) {
                         // 依次获取单个 View Element
                         Element viewElement = (Element) m.next();
-                        String componentId = viewElement.attributeValue("sgComponentId");
-                        String componentText = viewElement.attributeValue("sgComponentText");
+                        // FIXME: 2017/5/10 利用 IFML 控件的 name 属性
+                        String componentId = viewElement.attributeValue("name");
+                        String componentText = viewElement.attributeValue("sgText");
                         // 根据 IFML 控件类型判断测试模型控件类型
-                        addTestComponent(
-                                ViewComponentType.transferFromXmlType(viewElement.attributeValue("type")),
+                        addAction(
+                                ViewComponentType.fromXmlType(viewElement.attributeValue("type")),
                                 componentId,
                                 componentText);
                     }
                 } else if (viewElements.getName().equals("actionEvents")) {
 
                 }
+            }
+        }
+    }
 
+    @Override
+    public void parseConfigFile(Element patternElement) {
+        String patternContext = patternElement.attributeValue("context");
+        setContext(patternContext);
+
+        int priority = 1;
+        Iterator i = patternElement.elementIterator();
+        while (i.hasNext()) {
+            Element statementGroup = (Element) i.next();
+            if (statementGroup.getName().equals("action")) {
+                Iterator j = statementGroup.elementIterator();
+
+                // for each <component> under <action>
+                while (j.hasNext()) {
+                    Element component = (Element) j.next();
+                    if (component.attributeValue("id") == null) {
+                        System.out.println("配置文件中 <action>/<component> 的 id 是必填项");
+                    }
+                    EspressoAction action = findEspressoActionById(component.attributeValue("id"));
+                    action.setCustomValueFromConfig(component, priority++);
+                }
+            } else if (statementGroup.getName().equals("check")) {
+                Iterator j = statementGroup.elementIterator();
+
+                // for each <component> under <check>
+                while (j.hasNext()) {
+                    Element component = (Element) j.next();
+                    if (component.attributeValue("type") == null) {
+                        System.out.println("配置文件中 <check>/<component> 的 type 是必填项");
+                    }
+                    EspressoCheck check = new EspressoCheck(
+                            ViewComponentType.fromConfigType(component.attributeValue("type")),
+                            component.attributeValue("id"),
+                            component.attributeValue("text"));
+                    check.setCustomValueFromConfig(component, priority++);
+                    addCheck(check);
+                }
             }
         }
     }

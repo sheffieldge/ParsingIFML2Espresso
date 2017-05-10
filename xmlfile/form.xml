@@ -3,16 +3,16 @@
     <interactionFlowModel sgPattern="form" sgPatternId="form_id">
     <interactionFlowModelElements xsi:type="ext:IFMLWindow" name="FormActivity" inInteractionFlows="//@interactionFlowModel/@interactionFlowModelElements.2/@actionEvents.1/@outInteractionFlows.0">
       <viewElements xsi:type="ext:form" name="Form">
-        <viewElementEvents xsi:type="ext:OnSubmitEvent" name="buttonId" sgComponentId="email_sign_in_button">
+        <viewElementEvents xsi:type="ext:OnSubmitEvent" name="email_sign_in_button">
           <outInteractionFlows xsi:type="core:NavigationFlow" targetInteractionFlowElement="//@interactionFlowModel/@interactionFlowModelElements.2"/>
         </viewElementEvents>
-        <viewComponentParts xsi:type="ext:SimpleField" name="param1" sgComponentId="email">
+        <viewComponentParts xsi:type="ext:SimpleField" name="email">
           <type xsi:type="uml:PrimitiveType" href="model.uml#_VK2hkJ6QEeGdnpRmAZh-dQ"/>
         </viewComponentParts>
-        <viewComponentParts xsi:type="ext:SimpleField" name="param2" sgComponentId="password">
+        <viewComponentParts xsi:type="ext:SimpleField" name="password">
           <type xsi:type="uml:PrimitiveType" href="model.uml#_VK2hkJ6QEeGdnpRmAZh-dQ"/>
         </viewComponentParts>
-        <viewComponentParts xsi:type="ext:SelectionField" name="param3" sgComponentId="id3">
+        <viewComponentParts xsi:type="ext:SelectionField" name="spinner">
           <type xsi:type="uml:PrimitiveType" href="model.uml#_VK2hkJ6QEeGdnpRmAZh-dQ"/>
         </viewComponentParts>
       </viewElements>

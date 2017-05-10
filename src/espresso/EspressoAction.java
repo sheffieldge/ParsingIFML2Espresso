@@ -10,7 +10,7 @@ public class EspressoAction extends EspressoStatement{
     public EspressoAction(ViewComponentType componentType, String componentId, String componentText) {
         super(componentType, componentId, componentText);
         System.out.println("ACTION added: type=" + componentType.getDescription() + ", id=" + componentId + ", priority=" + priority);
-        // TODO: 2017/5/10  为了后续跳过检查非空。最后需要用配置文件填充。
+        // TODO: 2017/5/10  需要保留！为了后续跳过检查非空。最后需要用配置文件填充。
         CustomValue fakedValue = new CustomValue();
         fakedValue.setPlainText("FAKED_PLAIN_TEXT");
         customValue = fakedValue;
@@ -24,7 +24,7 @@ public class EspressoAction extends EspressoStatement{
         }
         switch (componentType) {
             case BUTTON: case SUBMIT_BUTTON:
-                return EspressoUtils.getActionCode(componentId, componentText, "click()");
+                return EspressoUtils.getActionCode(componentId, componentText, "scrollTo()", "click()");
             case EDIT_TEXT:
                 return EspressoUtils.getActionCode(componentId, componentText, "replaceText(\"" + customValue.getPlainText() + "\")");
             case SPINNER:
@@ -37,8 +37,8 @@ public class EspressoAction extends EspressoStatement{
     }
 
     @Override
-    public void setValueFromConfig(Element component, int priority) {
-        // TODO: 2017/5/10 这里没有管类型是否识别，都增加优先级，并且刷新优先级队列
+    public void setCustomValueFromConfig(Element component, int priority) {
+        // FIXME: 2017/5/10 这里没有管类型是否识别，都增加优先级，并且刷新优先级队列
         setPriority(priority);
         switch (componentType) {
             case BUTTON:
@@ -51,7 +51,7 @@ public class EspressoAction extends EspressoStatement{
                 customValue.setPlainText(component.attributeValue("plainText"));
                 break;
             default:
-                System.out.println("setValueFromConfig：" + componentType.getDescription() + "暂未实现该类型。");
+                System.out.println("EspressoAction setCustomValueFromConfig：" + componentType.getDescription() + "暂未实现该类型。");
                 return;
         }
         System.out.println(componentType.getDescription() + "配置完成。");

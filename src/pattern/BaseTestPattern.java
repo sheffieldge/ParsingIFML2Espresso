@@ -42,12 +42,37 @@ public abstract class BaseTestPattern {
         this.context = context;
     }
 
-    public void addTestAction(EspressoAction espressoAction) {
+    public void addAction(EspressoAction espressoAction) {
         espressoActions.add(espressoAction);
     }
 
-    public void addTestCheck(EspressoCheck espressoCheck) {
+    public void addAction(ViewComponentType componentType, String componentId, String componentText) {
+        if (componentType == null) {
+            System.out.println("addAction：参数不能为空");
+            return;
+        }
+        switch (componentType) {
+            case SUBMIT_BUTTON:
+                addAction(new EspressoAction(ViewComponentType.SUBMIT_BUTTON, componentId, componentText));
+                break;
+            case SPINNER:
+                addAction(new EspressoAction(ViewComponentType.SPINNER, componentId, componentText));
+                break;
+            case EDIT_TEXT:
+                addAction(new EspressoAction(ViewComponentType.EDIT_TEXT, componentId, componentText));
+                break;
+            default:
+                System.out.println("BasePattern 中暂未实现该类型，需要子类继续处理。");
+        }
+    }
+
+    public void addCheck(EspressoCheck espressoCheck) {
         espressoChecks.add(espressoCheck);
+    }
+
+    public void addCheck(ViewComponentType componentType, String componentId, String componentText) {
+        // TODO: 2017/5/10
+        return;
     }
 
     public EspressoAction findEspressoActionById(String id) {
@@ -56,7 +81,7 @@ public abstract class BaseTestPattern {
                 return action;
             }
         }
-        System.out.println("findEspressoActionById: 配置文件中的 Component ID 有误！");
+        System.out.println("findEspressoActionById: 配置文件中存在未识别的 Component ID：" + id);
         return null;
     }
 
@@ -66,7 +91,7 @@ public abstract class BaseTestPattern {
                 return check;
             }
         }
-        System.out.println("findEspressoCheckById: 配置文件中的 Component ID 有误！");
+        System.out.println("findEspressoCheckById: 配置文件中存在未识别的 Component ID：" + id);
         return null;
     }
 
@@ -74,7 +99,7 @@ public abstract class BaseTestPattern {
 
         // 首先对语句按照优先级重新排序
         espressoStatements.addAll(espressoActions);
-        //espressoStatements.addAll(espressoChecks);
+        espressoStatements.addAll(espressoChecks);
 
         System.out.println("------- Espresso scripts begin here! -------");
         while (espressoStatements.size() != 0) {
@@ -82,23 +107,12 @@ public abstract class BaseTestPattern {
             System.out.println(statement.getPriority() + ": " + statement.getComponentType().getDescription());
             System.out.println(statement.getEspressoCode());
         }
-//        Iterator<EspressoStatement> iter = espressoStatements.iterator();
-//        while (iter.hasNext()) {
-//            EspressoStatement currentStatement = iter.next();
-//            System.out.println(currentStatement.getPriority() + ": " + currentStatement.getComponentType().getDescription());
-//            System.out.println(currentStatement.getEspressoCode());
-//        }
         System.out.println("------- Espresso scripts end! -------");
     }
 
-    /**
-     * @param componentType 控件类型
-     * @param componentId   控件id（可能为空）
-     * @param componentText 控件文字（可能为空）
-     */
-    public abstract void addTestComponent(ViewComponentType componentType, String componentId, String componentText);
+    public abstract void parseModel(Element interactionFlowModel);
 
-    public abstract void createFromModel(Element interactionFlowModel);
+    public abstract void parseConfigFile(Element rootElement);
 
     private static class ActionPriorityComparator implements Comparator<EspressoStatement> {
         @Override

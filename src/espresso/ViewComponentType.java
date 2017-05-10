@@ -5,22 +5,22 @@ package espresso;
  */
 public enum ViewComponentType {
     // Form
-    BUTTON("Button", 0),
-    EDIT_TEXT("EditText", 0),
-    TEXT_VIEW("TextView", 0),
-    SPINNER("Spinner", 0),
-    SUBMIT_BUTTON("SubmitButton", 0);
+    BUTTON("Button"),
+    EDIT_TEXT("EditText"),
+    TEXT_VIEW("TextView"),
+    SPINNER("Spinner"),
+    SUBMIT_BUTTON("SubmitButton"),
+    RECYCLER_VIEW("RecyclerView"),
+    DRAWER("Drawer");
 
 
     private String description;
-    private int priority;
 
-    ViewComponentType(String description, int priority) {
+    ViewComponentType(String description) {
         this.description = description;
-        this.priority = priority;
     }
 
-    public static ViewComponentType transferFromXmlType(String xmlValue) {
+    public static ViewComponentType fromXmlType(String xmlValue) {
         switch (xmlValue) {
             case "ext:SimpleField":
                 return EDIT_TEXT;
@@ -34,11 +34,23 @@ public enum ViewComponentType {
         }
     }
 
-    public String getDescription() {
-        return description;
+    public static ViewComponentType fromConfigType(String configType) {
+        switch (configType) {
+            case "EditText":
+                return EDIT_TEXT;
+            case "TextView":
+                return TEXT_VIEW;
+            case "Drawer":
+                return DRAWER;
+            case "RecyclerView":
+                return RECYCLER_VIEW;
+            default:
+                System.out.println("ViewComponentType 中未实现这种类型：" + configType);
+                return null;
+        }
     }
 
-    public int getPriority() {
-        return priority;
+    public String getDescription() {
+        return description;
     }
 }
