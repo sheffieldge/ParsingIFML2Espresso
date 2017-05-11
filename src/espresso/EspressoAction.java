@@ -9,7 +9,7 @@ public class EspressoAction extends EspressoStatement{
 
     public EspressoAction(ViewComponentType componentType, String componentId, String componentText) {
         super(componentType, componentId, componentText);
-        System.out.println("ACTION added: type=" + componentType.getDescription() + ", id=" + componentId + ", priority=" + priority);
+        System.out.println("ACTION added: type=" + componentType.getDescription() + ", id=" + componentId + ", text=" + componentText + ", priority=" + priority);
         // TODO: 2017/5/10  需要保留！为了后续跳过检查非空。最后需要用配置文件填充。
         CustomValue fakedValue = new CustomValue();
         fakedValue.setPlainText("FAKED_PLAIN_TEXT");
@@ -30,8 +30,10 @@ public class EspressoAction extends EspressoStatement{
             case SPINNER:
                 return EspressoUtils.getActionCode(componentId, componentText, "click()") + "\n" +
                         EspressoUtils.getActionCode(null, customValue.getPlainText(), "click()");
+            case RECYCLER_VIEW:
+                return EspressoUtils.getActionCode(componentId, componentText, "待完善");
             default:
-                System.out.println("不能生成 Espresso 脚本：未实现的控件类型。");
+                System.out.println("EspressoAction getEspressoCode 不能生成 Espresso 脚本：未实现的控件类型。");
                 return null;
         }
     }
@@ -50,10 +52,18 @@ public class EspressoAction extends EspressoStatement{
             case SPINNER:
                 customValue.setPlainText(component.attributeValue("plainText"));
                 break;
+            case RECYCLER_VIEW:
+                String position = component.attributeValue("recyclerViewItemPosition");
+                if (position == null) {
+                    System.out.println(componentType.getDescription() + "标签必须指定position！");
+                } else {
+                    customValue.setRecyclerViewItemPosition(Integer.parseInt(position));
+                }
+                break;
             default:
                 System.out.println("EspressoAction setCustomValueFromConfig：" + componentType.getDescription() + "暂未实现该类型。");
                 return;
         }
-        System.out.println(componentType.getDescription() + "配置完成。");
+//        System.out.println(componentType.getDescription() + "配置完成。");
     }
 }

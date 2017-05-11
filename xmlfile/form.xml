@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="ASCII"?>
 <core:IFMLModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:core="http://www.omg.org/spec/20130218/core" xmlns:ext="http://www.omg.org/spec/20130218/ext" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML">
-    <interactionFlowModel sgPattern="form" sgPatternId="form_id">
-    <interactionFlowModelElements xsi:type="ext:IFMLWindow" name="FormActivity" inInteractionFlows="//@interactionFlowModel/@interactionFlowModelElements.2/@actionEvents.1/@outInteractionFlows.0">
-      <viewElements xsi:type="ext:form" name="Form">
-        <viewElementEvents xsi:type="ext:OnSubmitEvent" name="email_sign_in_button">
+  <interactionFlowModel sgPattern="form" sgPatternId="form_id">
+    <interactionFlowModelElements xsi:type="core:ViewContainer" name="FormActivity"
+                                  inInteractionFlows="//@interactionFlowModel/@interactionFlowModelElements.2/@actionEvents.1/@outInteractionFlows.0">
+      <viewElements xsi:type="ext:Form" name="Form">
+        <viewElementEvents xsi:type="ext:OnSubmitEvent" name="email_sign_in_button" text="??">
+          <outInteractionFlows xsi:type="core:NavigationFlow"/>
           <outInteractionFlows xsi:type="core:NavigationFlow" targetInteractionFlowElement="//@interactionFlowModel/@interactionFlowModelElements.2"/>
         </viewElementEvents>
         <viewComponentParts xsi:type="ext:SimpleField" name="email">
@@ -17,12 +19,14 @@
         </viewComponentParts>
       </viewElements>
     </interactionFlowModelElements>
-    <interactionFlowModelElements xsi:type="ext:IFMLWindow" name="TargetActivity" inInteractionFlows="//@interactionFlowModel/@interactionFlowModelElements.2/@actionEvents.0/@outInteractionFlows.0"/>
-    <interactionFlowModelElements xsi:type="core:IFMLAction" name="Process" inInteractionFlows="//@interactionFlowModel/@interactionFlowModelElements.0/@viewElements.0/@viewElementEvents.0/@outInteractionFlows.0">
-      <actionEvents name="ActionSuccess">
+    <interactionFlowModelElements xsi:type="core:ViewContainer" name="MainActivity"
+                                  inInteractionFlows="//@interactionFlowModel/@interactionFlowModelElements.2/@actionEvents.0/@outInteractionFlows.0"/>
+    <interactionFlowModelElements xsi:type="core:IFMLAction" name="Action"
+                                  inInteractionFlows="//@interactionFlowModel/@interactionFlowModelElements.0/@viewElements.0/@viewElementEvents.0/@outInteractionFlows.1">
+      <actionEvents>
         <outInteractionFlows xsi:type="core:NavigationFlow" targetInteractionFlowElement="//@interactionFlowModel/@interactionFlowModelElements.1"/>
       </actionEvents>
-      <actionEvents name="ActionFail">
+      <actionEvents>
         <outInteractionFlows xsi:type="core:NavigationFlow" targetInteractionFlowElement="//@interactionFlowModel/@interactionFlowModelElements.0"/>
       </actionEvents>
     </interactionFlowModelElements>

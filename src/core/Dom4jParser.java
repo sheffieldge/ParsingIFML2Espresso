@@ -6,6 +6,7 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import pattern.BaseTestPattern;
 import pattern.FormPattern;
+import pattern.ListPattern;
 
 import java.io.File;
 import java.util.Iterator;
@@ -21,10 +22,12 @@ public class Dom4jParser {
 
         System.out.println("------------- 开始处理 Pattern -------------");
         Document document = dom4JParser.parse("xmlfile/form.xml");
+//        Document document = dom4JParser.parse("xmlfile/list.xml");
         BaseTestPattern pattern = dom4JParser.readDocument(document);
         if (pattern != null) {
             generator.addTestPattern(pattern);
             pattern.parseConfigFile(dom4JParser.readConfigFile("config/form.xml"));
+//            pattern.parseConfigFile(dom4JParser.readConfigFile("config/list.xml"));
             pattern.getEspressoMethodSnippet();
         }
         System.out.println("------------- Pattern 处理结束 -------------");
@@ -70,6 +73,10 @@ public class Dom4jParser {
                     BaseTestPattern formPattern = new FormPattern();
                     formPattern.parseModel(interactionFlowModel);
                     return formPattern;
+                case "list":
+                    BaseTestPattern listPattern = new ListPattern();
+                    listPattern.parseModel(interactionFlowModel);
+                    return listPattern;
                 default:
                     System.out.println("readDocument错误：请检查XML中的模式名是否有误！");
                     break;
@@ -89,8 +96,7 @@ public class Dom4jParser {
         // 处理pattern的属性
         String patternType = patternElement.attributeValue("type");
         String patternId = patternElement.attributeValue("id");
-        String patternContext = patternElement.attributeValue("context");
-        if (patternType == null || patternId == null || patternContext == null) {
+        if (patternType == null || patternId == null) {
             System.out.println("配置文件中 Pattern 属性不完整。");
             return null;
         } else {

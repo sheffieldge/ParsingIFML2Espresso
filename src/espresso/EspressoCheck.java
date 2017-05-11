@@ -71,6 +71,6 @@ public class EspressoCheck extends EspressoStatement {
                 System.out.println("EspressoCheck setCustomValueFromConfig：" + componentType.getDescription() + "暂未实现该类型。");
                 return;
         }
-        System.out.println(componentType.getDescription() + "配置完成。");
+//        System.out.println(componentType.getDescription() + "配置完成。");
     }
 }

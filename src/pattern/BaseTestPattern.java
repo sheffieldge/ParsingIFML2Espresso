@@ -61,6 +61,9 @@ public abstract class BaseTestPattern {
             case EDIT_TEXT:
                 addAction(new EspressoAction(ViewComponentType.EDIT_TEXT, componentId, componentText));
                 break;
+            case RECYCLER_VIEW:
+                addAction(new EspressoAction(ViewComponentType.RECYCLER_VIEW, componentId, componentText));
+                break;
             default:
                 System.out.println("BasePattern 中暂未实现该类型，需要子类继续处理。");
         }
@@ -104,15 +107,83 @@ public abstract class BaseTestPattern {
         System.out.println("------- Espresso scripts begin here! -------");
         while (espressoStatements.size() != 0) {
             EspressoStatement statement = espressoStatements.poll();
-            System.out.println(statement.getPriority() + ": " + statement.getComponentType().getDescription());
+            System.out.println("Line " + statement.getPriority() + ": (" + statement.getComponentType().getDescription() + ")");
             System.out.println(statement.getEspressoCode());
         }
         System.out.println("------- Espresso scripts end! -------");
     }
 
-    public abstract void parseModel(Element interactionFlowModel);
+    public void parseModel(Element interactionFlowModel) {
+        id = interactionFlowModel.attributeValue("sgPatternId");
+        if (id == null) {
+            System.out.println("xml 中 interactionFlowModel 的属性 sgPatternId 是必填项");
+            return;
+        }
+        Iterator j = interactionFlowModel.elementIterator();
+        while (j.hasNext()) {
 
-    public abstract void parseConfigFile(Element rootElement);
+            // 依次获取 interactionFlowModelElements 同级
+            Element interactionFlowModelElements = (Element) j.next();
+            if (interactionFlowModelElements.attributeValue("type").equals("core:ViewContainer")) {
+                // FIXME: 2017/5/11 利用 IFML 控件的 name 属性为 context
+                context = interactionFlowModelElements.attributeValue("name");
+                Iterator k = interactionFlowModelElements.elementIterator();
+                while (k.hasNext()) {
+                    //依次获取 viewElements 同级
+                    Element viewElements = (Element) k.next();
+                    if (viewElements.getName().equals("viewElements")) {
+                        // 根据子类不同而转到相应的实现方法
+                        parseViewElements(viewElements);
+                    } else {
+                        // TODO: 2017/5/11 其他情况暂不考虑
+                    }
+                }
+                // TODO: 2017/5/11 对于每个模型，设置第一个Window为默认场景
+                break;
+            } else {
+
+            }
+        }
+    }
+
+    public abstract void parseViewElements(Element viewElements);
+
+    public void parseConfigFile(Element patternElement) {
+        int priority = 1;
+        Iterator i = patternElement.elementIterator();
+        while (i.hasNext()) {
+            Element statementGroup = (Element) i.next();
+            if (statementGroup.getName().equals("action")) {
+                Iterator j = statementGroup.elementIterator();
+
+                // for each <component> under <action>
+                while (j.hasNext()) {
+                    Element component = (Element) j.next();
+                    if (component.attributeValue("id") == null) {
+                        System.out.println("配置文件中 <action>/<component> 的 id 是必填项");
+                    }
+                    EspressoAction action = findEspressoActionById(component.attributeValue("id"));
+                    action.setCustomValueFromConfig(component, priority++);
+                }
+            } else if (statementGroup.getName().equals("check")) {
+                Iterator j = statementGroup.elementIterator();
+
+                // for each <component> under <check>
+                while (j.hasNext()) {
+                    Element component = (Element) j.next();
+                    if (component.attributeValue("type") == null) {
+                        System.out.println("配置文件中 <check>/<component> 的 type 是必填项");
+                    }
+                    EspressoCheck check = new EspressoCheck(
+                            ViewComponentType.fromConfigType(component.attributeValue("type")),
+                            component.attributeValue("id"),
+                            component.attributeValue("text"));
+                    check.setCustomValueFromConfig(component, priority++);
+                    addCheck(check);
+                }
+            }
+        }
+    }
 
     private static class ActionPriorityComparator implements Comparator<EspressoStatement> {
         @Override
@@ -120,6 +191,5 @@ public abstract class BaseTestPattern {
             return o1.getPriority() - o2.getPriority();
         }
     }
-
 
 }

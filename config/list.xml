@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pattern type="list" id="list_id">
+    <action>
+        <component id="recycler_view" recyclerViewItemPosition="10"/>
+    </action>
+    <check>
+        <component type="TextView" displayText="FAKED_PLAIN_TEXT"/>
+    </check>
+
+</pattern>
