@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ASCII"?>
+<core:IFMLModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xmlns:core="http://www.omg.org/spec/20130218/core">
+    <interactionFlowModel pattern="master_detail" patternId="master_detail_id">
+        <interactionFlowModelElements xsi:type="core:ViewContainer" name="MasterDetailActivity">
+            <viewElements xsi:type="core:ViewComponent" name="MasterComponent">
+                <viewElementEvents type="TextView" text="text1">
+                    <outInteractionFlows xsi:type="core:NavigationFlow"
+                                         targetInteractionFlowElement="//@interactionFlowModel/@interactionFlowModelElements.0/@viewElements.1"/>
+                </viewElementEvents>
+                <viewElementEvents type="TextView" text="text2"/>
+                <viewElementEvents type="TextView" text="text3"/>
+            </viewElements>
+            <viewElements xsi:type="core:ViewComponent" name="DetailComponent"
+                          inInteractionFlows="//@interactionFlowModel/@interactionFlowModelElements.0/@viewElements.0/@viewElementEvents.0/@outInteractionFlows.0"/>
+        </interactionFlowModelElements>
+    </interactionFlowModel>
+    <domainModel/>
+</core:IFMLModel>

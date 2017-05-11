@@ -4,9 +4,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import pattern.BaseTestPattern;
-import pattern.FormPattern;
-import pattern.ListPattern;
+import pattern.*;
 
 import java.io.File;
 import java.util.Iterator;
@@ -21,13 +19,22 @@ public class Dom4jParser {
         Dom4jParser dom4JParser = new Dom4jParser();
 
         System.out.println("------------- 开始处理 Pattern -------------");
-        Document document = dom4JParser.parse("xmlfile/form.xml");
-//        Document document = dom4JParser.parse("xmlfile/list.xml");
+//        Document document = dom4JParser.parse("file/ifml/form.xml");
+//        Document document = dom4JParser.parse("file/ifml/list.xml");
+//        Document document = dom4JParser.parse("file/ifml/login.xml");
+//        Document document = dom4JParser.parse("file/ifml/call.xml");
+//        Document document = dom4JParser.parse("file/ifml/input.xml");
+        Document document = dom4JParser.parse("file/ifml/master_detail.xml");
         BaseTestPattern pattern = dom4JParser.readDocument(document);
         if (pattern != null) {
             generator.addTestPattern(pattern);
-            pattern.parseConfigFile(dom4JParser.readConfigFile("config/form.xml"));
-//            pattern.parseConfigFile(dom4JParser.readConfigFile("config/list.xml"));
+//            pattern.parseConfigFile(dom4JParser.readConfigFile("file/config/form.xml"));
+//            pattern.parseConfigFile(dom4JParser.readConfigFile("file/config/list.xml"));
+//            pattern.parseConfigFile(dom4JParser.readConfigFile("file/config/login.xml"));
+//            pattern.parseConfigFile(dom4JParser.readConfigFile("file/config/call.xml"));
+//            pattern.parseConfigFile(dom4JParser.readConfigFile("file/config/input.xml"));
+            pattern.parseConfigFile(dom4JParser.readConfigFile("file/config/master_detail.xml"));
+
             pattern.getEspressoMethodSnippet();
         }
         System.out.println("------------- Pattern 处理结束 -------------");
@@ -56,7 +63,7 @@ public class Dom4jParser {
             Element interactionFlowModel = (Element)i.next();
             // 仅处理interactionFlowModel，忽略 Domain Model
             if (interactionFlowModel.getName().equals("interactionFlowModel")) {
-                return parsePattern(interactionFlowModel.attributeValue("sgPattern"), interactionFlowModel);
+                return parsePattern(interactionFlowModel.attributeValue("pattern"), interactionFlowModel);
             }
         }
         System.out.println("readDocument：其他错误。");
@@ -77,6 +84,22 @@ public class Dom4jParser {
                     BaseTestPattern listPattern = new ListPattern();
                     listPattern.parseModel(interactionFlowModel);
                     return listPattern;
+                case "login":
+                    BaseTestPattern loginPattern = new FormPattern();
+                    loginPattern.parseModel(interactionFlowModel);
+                    return loginPattern;
+                case "call":
+                    BaseTestPattern callPattern = new CallPattern();
+                    callPattern.parseModel(interactionFlowModel);
+                    return callPattern;
+                case "input":
+                    BaseTestPattern inputPattern = new InputPattern();
+                    inputPattern.parseModel(interactionFlowModel);
+                    return inputPattern;
+                case "master_detail":
+                    BaseTestPattern masterDetailPattern = new MasterDetailPattern();
+                    masterDetailPattern.parseModel(interactionFlowModel);
+                    return masterDetailPattern;
                 default:
                     System.out.println("readDocument错误：请检查XML中的模式名是否有误！");
                     break;

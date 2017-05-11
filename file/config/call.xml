@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pattern type="call" id="call_id">
+    <action>
+        <component id="btn_call"/>
+    </action>
+    <check>
+        <component type="TextView" displayText="跳转成功"/>
+    </check>
+</pattern>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pattern type="login" id="login_id">
+    <action>
+        <component id="et_username" plainText="foo@example.com"/>
+        <component id="et_password" plainText="hello"/>
+        <component id="btn_login"/>
+    </action>
+    <check>
+        <component type="TextView" displayText="登陆成功"/>
+    </check>
+</pattern>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pattern type="form" id="form_id">
+    <action>
+        <component id="et_param1" plainText="编辑文本框的测试输入"/>
+        <component id="et_param2" plainText="编辑文本框的测试输出"/>
+        <component id="spn_param3" plainText="选择框的选择项"/>
+    </action>
+    <check>
+        <component type="TextView" displayText="展示文本"/>
+        <component type="EditText" id="email" errorText="错误提示"/>
+        <component type="RecyclerView" id="recycler_view" recyclerViewItemCount="10"/>
+        <component type="RecyclerView" id="recycler_view" recyclerViewItemPosition="10"/>
+    </check>
+    <action>
+        <component id="btn_submit"/>
+    </action>
+    <check>
+        <component type="TextView" displayText="展示文本"/>
+    </check>
+</pattern>

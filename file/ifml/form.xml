@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:IFMLModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:core="http://www.omg.org/spec/20130218/core"
+                xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML">
+    <interactionFlowModel pattern="form" patternId="form_id">
+        <interactionFlowModelElements xsi:type="core:ViewContainer" name="FormActivity">
+            <viewElements xsi:type="core:ViewComponent" name="ViewComponent">
+                <parameters type="EditText" name="et_param1" text="登录">
+                    <type xsi:type="uml:PrimitiveType" href="model.uml#_VK2hkJ6QEeGdnpRmAZh-dQ"/>
+                </parameters>
+                <parameters type="EditText" name="et_param2">
+                    <type xsi:type="uml:PrimitiveType" href="model.uml#_VK2hkJ6QEeGdnpRmAZh-dQ"/>
+                </parameters>
+                <parameters type="Spinner" name="spn_param3">
+                    <type xsi:type="uml:PrimitiveType" href="model.uml#_VK2hkJ6QEeGdnpRmAZh-dQ"/>
+                </parameters>
+                <viewElementEvents type="Button" name="btn_submit">
+                    <outInteractionFlows xsi:type="core:NavigationFlow"
+                                         targetInteractionFlowElement="//@interactionFlowModel/@interactionFlowModelElements.1"/>
+                </viewElementEvents>
+            </viewElements>
+        </interactionFlowModelElements>
+        <interactionFlowModelElements xsi:type="core:ViewContainer" name="AnotherActivity"
+                                      inInteractionFlows="//@interactionFlowModel/@interactionFlowModelElements.0/@viewElements.0/@viewElementEvents.0/@outInteractionFlows.0"/>
+    </interactionFlowModel>
+    <domainModel/>
+</core:IFMLModel>

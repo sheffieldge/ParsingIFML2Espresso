@@ -4,7 +4,6 @@
         <component id="recycler_view" recyclerViewItemPosition="10"/>
     </action>
     <check>
-        <component type="TextView" displayText="FAKED_PLAIN_TEXT"/>
+        <component type="TextView" displayText="选择第N项后展示内容"/>
     </check>
-
 </pattern>

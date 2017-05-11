@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ASCII"?>
+<core:IFMLModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xmlns:core="http://www.omg.org/spec/20130218/core">
+    <interactionFlowModel pattern="call" patternId="call_id">
+        <interactionFlowModelElements xsi:type="core:ViewContainer" name="CallActivity">
+            <viewElements xsi:type="core:ViewComponent" name="ViewComponent">
+                <viewElementEvents type="Button" name="btn_call"/>
+            </viewElements>
+        </interactionFlowModelElements>
+    </interactionFlowModel>
+    <domainModel/>
+</core:IFMLModel>

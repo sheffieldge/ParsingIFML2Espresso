@@ -46,36 +46,8 @@ public abstract class BaseTestPattern {
         espressoActions.add(espressoAction);
     }
 
-    public void addAction(ViewComponentType componentType, String componentId, String componentText) {
-        if (componentType == null) {
-            System.out.println("addAction：参数不能为空");
-            return;
-        }
-        switch (componentType) {
-            case SUBMIT_BUTTON:
-                addAction(new EspressoAction(ViewComponentType.SUBMIT_BUTTON, componentId, componentText));
-                break;
-            case SPINNER:
-                addAction(new EspressoAction(ViewComponentType.SPINNER, componentId, componentText));
-                break;
-            case EDIT_TEXT:
-                addAction(new EspressoAction(ViewComponentType.EDIT_TEXT, componentId, componentText));
-                break;
-            case RECYCLER_VIEW:
-                addAction(new EspressoAction(ViewComponentType.RECYCLER_VIEW, componentId, componentText));
-                break;
-            default:
-                System.out.println("BasePattern 中暂未实现该类型，需要子类继续处理。");
-        }
-    }
-
     public void addCheck(EspressoCheck espressoCheck) {
         espressoChecks.add(espressoCheck);
-    }
-
-    public void addCheck(ViewComponentType componentType, String componentId, String componentText) {
-        // TODO: 2017/5/10
-        return;
     }
 
     public EspressoAction findEspressoActionById(String id) {
@@ -114,7 +86,7 @@ public abstract class BaseTestPattern {
     }
 
     public void parseModel(Element interactionFlowModel) {
-        id = interactionFlowModel.attributeValue("sgPatternId");
+        id = interactionFlowModel.attributeValue("patternId");
         if (id == null) {
             System.out.println("xml 中 interactionFlowModel 的属性 sgPatternId 是必填项");
             return;
@@ -159,11 +131,14 @@ public abstract class BaseTestPattern {
                 // for each <component> under <action>
                 while (j.hasNext()) {
                     Element component = (Element) j.next();
-                    if (component.attributeValue("id") == null) {
-                        System.out.println("配置文件中 <action>/<component> 的 id 是必填项");
+                    if (component.attributeValue("id") == null && component.attributeValue("text") == null) {
+                        System.out.println("parseConfigFile：配置文件中 <action>/<component> 不能没有标识符id或text！");
+                    } else if (component.attributeValue("id") != null) {
+                        findEspressoActionById(component.attributeValue("id"))
+                                .setCustomValueFromConfig(component, priority++);
+                    } else {
+                        addAction(new EspressoAction(ViewComponentType.TEXT_VIEW, null, component.attributeValue("name")));
                     }
-                    EspressoAction action = findEspressoActionById(component.attributeValue("id"));
-                    action.setCustomValueFromConfig(component, priority++);
                 }
             } else if (statementGroup.getName().equals("check")) {
                 Iterator j = statementGroup.elementIterator();

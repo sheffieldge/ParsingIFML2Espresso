@@ -12,8 +12,10 @@ public abstract class EspressoStatement {
     String componentText;
     CustomValue customValue;
 
-
     public EspressoStatement(ViewComponentType componentType, String componentId, String componentText) {
+        if (componentType == null) {
+            System.out.println("控件类型不能为空");
+        }
         this.componentType = componentType;
         this.componentId = componentId;
         this.componentText = componentText;

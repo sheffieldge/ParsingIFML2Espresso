@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ASCII"?>
+<core:IFMLModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:core="http://www.omg.org/spec/20130218/core"
+                xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML">
+    <interactionFlowModel pattern="login" patternId="login_id">
+        <interactionFlowModelElements xsi:type="core:ViewContainer" name="LoginActivity">
+            <viewElements xsi:type="core:ViewComponent" name="LoginForm">
+                <parameters type="EditText" name="et_username">
+                    <type xsi:type="uml:PrimitiveType" href="model.uml#_VK2hkJ6QEeGdnpRmAZh-dQ"/>
+                </parameters>
+                <parameters type="EditText" name="et_password">
+                    <type xsi:type="uml:PrimitiveType" href="model.uml#_VK2hkJ6QEeGdnpRmAZh-dQ"/>
+                </parameters>
+                <viewElementEvents type="Button" name="btn_login">
+                    <outInteractionFlows xsi:type="core:NavigationFlow"
+                                         targetInteractionFlowElement="//@interactionFlowModel/@interactionFlowModelElements.1"/>
+                </viewElementEvents>
+            </viewElements>
+        </interactionFlowModelElements>
+        <interactionFlowModelElements xsi:type="core:IFMLAction" name="ServerProcess"
+                                      inInteractionFlows="//@interactionFlowModel/@interactionFlowModelElements.0/@viewElements.0/@viewElementEvents.0/@outInteractionFlows.0"/>
+    </interactionFlowModel>
+    <domainModel/>
+</core:IFMLModel>

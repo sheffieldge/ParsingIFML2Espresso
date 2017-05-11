@@ -23,10 +23,12 @@ public class EspressoAction extends EspressoStatement{
             return null;
         }
         switch (componentType) {
-            case BUTTON: case SUBMIT_BUTTON:
-                return EspressoUtils.getActionCode(componentId, componentText, "scrollTo()", "click()");
+            case BUTTON:
+                return EspressoUtils.getActionCode(componentId, componentText, "click()");
             case EDIT_TEXT:
                 return EspressoUtils.getActionCode(componentId, componentText, "replaceText(\"" + customValue.getPlainText() + "\")");
+            case TEXT_VIEW:
+                return EspressoUtils.getActionCode(null, componentText, "click()");
             case SPINNER:
                 return EspressoUtils.getActionCode(componentId, componentText, "click()") + "\n" +
                         EspressoUtils.getActionCode(null, customValue.getPlainText(), "click()");
@@ -44,7 +46,6 @@ public class EspressoAction extends EspressoStatement{
         setPriority(priority);
         switch (componentType) {
             case BUTTON:
-            case SUBMIT_BUTTON:
                 break;
             case EDIT_TEXT:
                 customValue.setPlainText(component.attributeValue("plainText"));

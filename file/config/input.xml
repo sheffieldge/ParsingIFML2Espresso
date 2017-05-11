@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pattern type="input" id="input_id">
+    <action>
+        <component id="spn_change_input" plainText="选择框的选择项"/>
+    </action>
+    <check>
+        <component type="TextView" displayText="跳转成功"/>
+    </check>
+</pattern>

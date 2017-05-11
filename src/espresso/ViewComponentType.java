@@ -9,7 +9,6 @@ public enum ViewComponentType {
     EDIT_TEXT("EditText"),
     TEXT_VIEW("TextView"),
     SPINNER("Spinner"),
-    SUBMIT_BUTTON("SubmitButton"),
     RECYCLER_VIEW("RecyclerView"),
     DRAWER("Drawer");
 
@@ -22,11 +21,13 @@ public enum ViewComponentType {
 
     public static ViewComponentType fromXmlType(String xmlValue) {
         switch (xmlValue) {
-            case "ext:SimpleField":
+            case "Button":
+                return BUTTON;
+            case "EditText":
                 return EDIT_TEXT;
-            case "ext:OnSubmitEvent":
-                return SUBMIT_BUTTON;
-            case "ext:SelectionField":
+            case "TextView":
+                return TEXT_VIEW;
+            case "Spinner":
                 return SPINNER;
             default:
                 System.out.println("ViewComponentType 中未实现这种类型: " + xmlValue);
@@ -40,8 +41,6 @@ public enum ViewComponentType {
                 return EDIT_TEXT;
             case "TextView":
                 return TEXT_VIEW;
-            case "Drawer":
-                return DRAWER;
             case "RecyclerView":
                 return RECYCLER_VIEW;
             default:
