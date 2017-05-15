@@ -9,7 +9,7 @@ import java.util.Iterator;
 /**
  * Created by gexiaofei on 2017/5/9.
  */
-public class FormPattern extends BaseTestPattern {
+public class FindPattern extends BaseTestPattern {
 
     @Override
     public void parseViewElements(Element viewElements) {

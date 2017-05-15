@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <core:IFMLModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:core="http://www.omg.org/spec/20130218/core"
                 xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML">
-    <interactionFlowModel pattern="form" patternId="form_id">
+    <interactionFlowModel pattern="find" patternId="find_id">
         <interactionFlowModelElements xsi:type="core:ViewContainer" name="FormActivity">
             <viewElements xsi:type="core:ViewComponent" name="ViewComponent">
                 <parameters type="EditText" name="et_param1" text="登录">

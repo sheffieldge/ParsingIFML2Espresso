@@ -19,8 +19,8 @@ public class Dom4jParser {
         Dom4jParser dom4JParser = new Dom4jParser();
 
         System.out.println("------------- 开始处理 Pattern -------------");
-//        Document document = dom4JParser.parse("file/ifml/form.xml");
-//        Document document = dom4JParser.parse("file/ifml/list.xml");
+//        Document document = dom4JParser.parse("file/ifml/find.xml");
+//        Document document = dom4JParser.parse("file/ifml/sort.xml");
 //        Document document = dom4JParser.parse("file/ifml/login.xml");
 //        Document document = dom4JParser.parse("file/ifml/call.xml");
 //        Document document = dom4JParser.parse("file/ifml/input.xml");
@@ -28,8 +28,8 @@ public class Dom4jParser {
         BaseTestPattern pattern = dom4JParser.readDocument(document);
         if (pattern != null) {
             generator.addTestPattern(pattern);
-//            pattern.parseConfigFile(dom4JParser.readConfigFile("file/config/form.xml"));
-//            pattern.parseConfigFile(dom4JParser.readConfigFile("file/config/list.xml"));
+//            pattern.parseConfigFile(dom4JParser.readConfigFile("file/config/find.xml"));
+//            pattern.parseConfigFile(dom4JParser.readConfigFile("file/config/sort.xml"));
 //            pattern.parseConfigFile(dom4JParser.readConfigFile("file/config/login.xml"));
 //            pattern.parseConfigFile(dom4JParser.readConfigFile("file/config/call.xml"));
 //            pattern.parseConfigFile(dom4JParser.readConfigFile("file/config/input.xml"));
@@ -76,16 +76,16 @@ public class Dom4jParser {
             return null;
         } else {
             switch (patternName) {
-                case "form":
-                    BaseTestPattern formPattern = new FormPattern();
+                case "find":
+                    BaseTestPattern formPattern = new FindPattern();
                     formPattern.parseModel(interactionFlowModel);
                     return formPattern;
                 case "list":
-                    BaseTestPattern listPattern = new ListPattern();
+                    BaseTestPattern listPattern = new SortPattern();
                     listPattern.parseModel(interactionFlowModel);
                     return listPattern;
                 case "login":
-                    BaseTestPattern loginPattern = new FormPattern();
+                    BaseTestPattern loginPattern = new FindPattern();
                     loginPattern.parseModel(interactionFlowModel);
                     return loginPattern;
                 case "call":

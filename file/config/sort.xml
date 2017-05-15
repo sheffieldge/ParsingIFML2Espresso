@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pattern type="list" id="list_id">
+<pattern type="sort" id="sort_id">
     <action>
         <component id="recycler_view" recyclerViewItemPosition="10"/>
     </action>

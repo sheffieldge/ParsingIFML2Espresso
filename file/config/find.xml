@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pattern type="form" id="form_id">
+<pattern type="find" id="find_id">
     <action>
         <component id="et_param1" plainText="编辑文本框的测试输入"/>
         <component id="et_param2" plainText="编辑文本框的测试输出"/>

@@ -9,7 +9,7 @@ import java.util.Iterator;
 /**
  * Created by gexiaofei on 2017/5/11.
  */
-public class ListPattern extends BaseTestPattern {
+public class SortPattern extends BaseTestPattern {
 
     @Override
     public void parseViewElements(Element viewElements) {
